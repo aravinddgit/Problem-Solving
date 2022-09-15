@@ -12,3 +12,7 @@ const pairSum = (numbers, targetSum) => {
     return null;
 };
   
+// Complexity
+// n = length of array
+// Time: O(n)
+// Space: O(n)
