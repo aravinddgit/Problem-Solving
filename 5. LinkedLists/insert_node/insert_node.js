@@ -39,7 +39,7 @@ var insertNode = (head, value, index, count = 0) => {
 }
 
 
-// Iterative
+// // Iterative
 var insertNode = (head, value, index) => {
   if (index === 0) {
     const newHead = new Node(value);
@@ -61,6 +61,70 @@ var insertNode = (head, value, index) => {
   }
   return head;
 };
+
+
+// Iterative - 2
+var insertNode = (head, value, index) => {
+  const newNode = new Node(value);
+  if(head === null) return newNode;
+  if(index === 0){
+    newNode.next = head;
+    return newNode
+  }
+  let current = head;
+  while(index--){
+    if(index !== 0){
+      current = current.next;
+      continue;
+    }
+    
+    let next = current.next;
+    current.next = newNode;
+    newNode.next = next;
+  }
+  return head;
+  
+}
+
+
+// Recursive - 2
+var insertNode = (head, value, index) => {
+  if(index === 0){
+    const newNode = new Node(value);
+    newNode.next = head;
+    return newNode;
+  }
+  if(index === 1){
+    const newNode = new Node(value);
+    const next = head.next;
+    head.next = newNode;
+    newNode.next = next;
+    return head;
+  }
+  head.next = insertNode(head.next, value, index-1);
+  return head;
+
+}
+
+
+
+
+// const linkedListValues = (head, arr=[]) => {
+//   if(head === null) return [];
+//   arr = [head.val, ...linkedListValues(head.next)]
+//   return arr;
+// }
+
+
+// let arr2 = linkedListValues(a);
+// console.log(`Initial linked list: ${arr2}`);
+
+// insertNode(a, 'x', 2);
+// // 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 12 -> 20 -> 25 -> 28 
+
+// let arr3 = linkedListValues(a);
+// console.log(`Final List: ${arr3}`);
+
 
 
 // // Complexity
