@@ -1,9 +1,9 @@
-class Node {
-    constructor(val) {
-      this.val = val;
-      this.next = null;
-    }
-}
+// class Node {
+//     constructor(val) {
+//       this.val = val;
+//       this.next = null;
+//     }
+// }
 
 
 
@@ -30,7 +30,32 @@ head.next = createLinkedList(values, i + 1);
 return head;
 };
 
-// createLinkedList(["h", "e", "y"]);
+
+//Iterative - 2
+const createLinkedList = (values) => {
+  if(values.length === 0) return null;
+  let prev = new Node(null);
+  let head = prev;
+  for(let item of values){
+    const newNode = new Node(item);
+    prev.next = newNode;
+    prev = newNode;
+  }
+  return head.next;
+}
+
+
+// const linkedListValues = (head, arr=[]) => {
+//   if(head === null) return [];
+//   arr = [head.val, ...linkedListValues(head.next)]
+//   return arr;
+// }
+
+// let head = createLinkedList(["h", "e", "y"]);
+
+// let arr3 = linkedListValues(head);
+// console.log(`Final List: ${arr3}`);
+
 
 
 // COMPLEXITY
