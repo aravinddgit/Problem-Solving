@@ -7,10 +7,10 @@
 // }
 
 
-//   621
-// + 354
-// -----
-//   975
+// //   621
+// // + 354
+// // -----
+// //   975
 
 // const a1 = new Node(1);
 // const a2 = new Node(2);
@@ -84,9 +84,26 @@ var addLists = (head1, head2, carry=0) => {
     return newNode;
 }
 
+ const linkedListValues = (head, arr=[]) => {
+    if(head === null) return [];
+    arr = [head.val, ...linkedListValues(head.next)]
+    return arr;
+}
 
-// addLists(a1, b1);
+
+// let arr2 = linkedListValues(a1);
+// console.log(`Initial linked list2: ${arr2}`);
+// let arr1 = linkedListValues(b1);
+// console.log(`Initial linked list2: ${arr1}`);
+
+
+// let newHead = addLists(a1, b1);
 // // 5 -> 7 -> 9
+
+
+// let arr3 = linkedListValues(newHead);
+// console.log(`Final List: ${arr3}`);
+
 
 // Complexity
 // Iterative and Recursive
