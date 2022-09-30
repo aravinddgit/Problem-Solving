@@ -44,12 +44,22 @@ var treeValueCount = (root, target) => {
   return count;
 };
 
+// Complexity
+// n = number of nodes
+// Time: O(n)
+// Space: O(n)
+
 // DFS - Recursive
 var treeValueCount = (root, target, count=0) => {
     if(root === null) return 0;
     if(root.val === target) count++;
     return (treeValueCount(root.left, target) + treeValueCount(root.right, target) + count);
 }
+
+// Complexity
+// n = number of nodes
+// Time: O(n)
+// Space: O(n)
 
 // BFS - Iterative
 var treeValueCount = (root, target) => {
@@ -66,5 +76,11 @@ var treeValueCount = (root, target) => {
   return count;
 };
 
+// Complexity
+// n = number of nodes
+// Time: O(n)
+// Space: O(n)
+// Note: this solution should really be considered O(n^2) runtime because the JavaScript shift() methods runs in O(n). JavaScript does not have a native queue data structure that is maximally efficient.
 
 // console.log(treeValueCount(a,  12)); // -> 2
+
