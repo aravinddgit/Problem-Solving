@@ -80,7 +80,12 @@ const allTreePaths = (root) => {
 //   [ 'a', 'b', 'e' ], 
 //   [ 'a', 'c', 'f' ] 
 // ] 
-  
+
+
+// Complexity
+// n = number of nodes
+// Time: ~O(n)
+// Space: ~O(n)
   
   module.exports = {
     allTreePaths,

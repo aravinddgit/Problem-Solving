@@ -42,4 +42,11 @@ const bottomRightValue = (root) => {
 };
 
 
+
 // console.log(bottomRightValue(a)); // -> 1
+
+// Complexity
+// n = number of nodes
+// Time: O(n)
+// Space: O(n)
+// Note: this solution should really be considered O(n^2) runtime because the JavaScript shift() methods runs in O(n). JavaScript does not have a native queue data structure that is maximally efficient.
