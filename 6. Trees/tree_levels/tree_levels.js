@@ -7,18 +7,18 @@
 // }
 
 
-const q = new Node("q");
-const r = new Node("r");
-const s = new Node("s");
-const t = new Node("t");
-const u = new Node("u");
-const v = new Node("v");
+// const q = new Node("q");
+// const r = new Node("r");
+// const s = new Node("s");
+// const t = new Node("t");
+// const u = new Node("u");
+// const v = new Node("v");
 
-q.left = r;
-q.right = s;
-r.right = t;
-t.left = u;
-u.right = v;
+// q.left = r;
+// q.right = s;
+// r.right = t;
+// t.left = u;
+// u.right = v;
 
 //      q
 //    /   \
