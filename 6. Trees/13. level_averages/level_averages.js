@@ -36,6 +36,7 @@ var levelAverages = (root) => {
     let current = stack.pop();
     let currentNode = current.node;
     let currentLevel = current.level;
+    // Checking if new node's level is greater that 'level''s length
     if(levels.length === currentLevel)
       levels[currentLevel] = [currentNode.val];
     else
@@ -91,48 +92,55 @@ const avg = (array) => {
 };
 
 
-// My solution
+// BFS - Iterative
 var levelAverages = (root) => {
-    if(root === null) return [];
-    let queue = [];
-    let itr = 0;
-    let nextLevelItr = 0
-    let index = 0;
-    let level = 0
-    let levelAvgs = [];
-    let currLevelSum = 0;
-    let preItr = nextLevelItr;
-    queue.push(root);
-    while(index < queue.length){
-      let current = queue[index];
-      currLevelSum += current.val;
-      index++;
-      itr++;
-      
-      if(current.left)
-        queue.push(current.left);
-      else
-        nextLevelItr++;
-      
-      if(current.right)
-        queue.push(current.right)
-      else
-        nextLevelItr++;
-      
-      if(itr === (2 ** level)){
-        levelAvgs.push(currLevelSum/(itr - preItr));
-        itr = nextLevelItr;
-        preItr = nextLevelItr;
-        nextLevelItr = nextLevelItr * 2;
-        level++;
-        currLevelSum = 0;
-      }
+  let levelAvgs = [];
+  let queue = [];
+  queue.push(root);
+
+  // itr - to denote the current count of nodes within a level
+  let itr = 0;
+  // to denote the starting index of the count of nodes in the next level - if nodes are missing
+  let nextLevelStartItr = 0;
+  // To preserve the current level's starting index
+  let currLevelStartItr = nextLevelStartItr;
+  // To denote the current level
+  let level = 0;
+  // Current level sum to calculate average
+  let currLevelSum = 0
+  
+  let currIndex = 0;
+  while(currIndex < queue.length){
+    // Used instead of queue.shift 
+    let currentNode = queue[currIndex];
+    currIndex++;
+
+    // Accumulating the value of the current node
+    currLevelSum += currentNode.val
+    itr++;
+
+    if(currentNode.left)
+      queue.push(currentNode.left);
+    else
+      nextLevelStartItr++; // If a child node is not present, counter is incremented to keep track of the starting index offset of the next level 
+
+    if(currentNode.right)
+      queue.push(currentNode.right);
+    else
+      nextLevelStartItr++; // If a child node is not present, counter is incremented to keep track of the starting index offset of the next level 
+
+    if(itr === 2 ** level){
+      let levelAvg = currLevelSum / (itr - currLevelStartItr); // Calculating avg - Number of elements is found by subtracting the starting index of the current level from total element count in the current level
+      levelAvgs.push(levelAvg);
+      currLevelSum = 0;
+      itr = nextLevelStartItr;
+      currLevelStartItr = nextLevelStartItr;
+      nextLevelStartItr = nextLevelStartItr * 2; // Doubling the starting index offset for the next level (Why? - A missing node in one level = 2(binary tree) missing nodes in the next level)
+      level++;
     }
-    return levelAvgs;
   }
-  
-  
-  
+  return levelAvgs;
+}
 
 
 // console.log(levelAverages(a)); // -> [ 3, 7.5, 1 ] 
