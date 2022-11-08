@@ -1,24 +1,24 @@
-// class Node {
-//   constructor(val) {
-//     this.val = val;
-//     this.left = null;
-//     this.right = null;
-//   }
-// }
+class Node {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
 
 
-// const q = new Node("q");
-// const r = new Node("r");
-// const s = new Node("s");
-// const t = new Node("t");
-// const u = new Node("u");
-// const v = new Node("v");
+const q = new Node("q");
+const r = new Node("r");
+const s = new Node("s");
+const t = new Node("t");
+const u = new Node("u");
+const v = new Node("v");
 
-// q.left = r;
-// q.right = s;
-// r.right = t;
-// t.left = u;
-// u.right = v;
+q.left = r;
+q.right = s;
+r.right = t;
+t.left = u;
+u.right = v;
 
 //      q
 //    /   \
@@ -34,42 +34,53 @@
 
 // BFS
 var treeLevels = (root) => {
-  if(root === null) return [];
   let queue = [];
-  let finalArr = [];
-  let itr = 0;
-  let nextLevelItr = 0;
-  let level = 0;
-  let levelArr = [];
-  let currIndex = 0;
+  let currIndex  = 0;
   queue.push(root);
+
+  // itr - to denote the current count of nodes within a level
+  let itr = 0;
+  // to denote the starting index of the count of nodes in the next level - if nodes are missing
+  let nextlevelStartItr = 0;
+  // To denote the current level
+  let level = 0;
+  // Current level array to push into final array
+  let currLevelArr = [];
+  
+  // RETURN value : Final array
+  let levels = [];
+
   while(currIndex < queue.length){
-    let current = queue[currIndex];
+    // Used instead of queue.shift 
+    let currentNode = queue[currIndex];
     currIndex++;
-    levelArr.push(current.val);
+    
+    // Pushing current node's value into the current level's array
+    currLevelArr.push(currentNode.val);
     itr++;
-    
-    if(current.left)
-      queue.push(current.left);
+  
+    if(currentNode.left)
+      queue.push(currentNode.left)
     else
-      nextLevelItr++;
-    
-    if(current.right)
-      queue.push(current.right);
+      nextlevelStartItr++; // If a child node is not present, counter is incremented to keep track of the starting index offset of the next level 
+
+    if(currentNode.right)
+      queue.push(currentNode.right);
     else
-      nextLevelItr++;
-    
-    if(itr === (2 ** level)){
-      itr = nextLevelItr;
-      nextLevelItr = nextLevelItr * 2;
+      nextlevelStartItr++; // If a child node is not present, counter is incremented to keep track of the starting index offset of the next level 
+
+    if(itr === 2 ** level){
+      levels.push(currLevelArr);
+      currLevelArr = [];
       level++;
-      finalArr.push(levelArr);
-      levelArr = [];
+      itr = nextlevelStartItr;
+      nextlevelStartItr = nextlevelStartItr * 2; // Doubling the starting index offset for the next level (Why? - A missing node in one level = 2(binary tree) missing nodes in the next level)
     }
-    
   }
-  return finalArr;
-};
+
+  return levels;
+
+}
 
 //Complexity
 // Time: O(n)
@@ -79,17 +90,27 @@ var treeLevels = (root) => {
 // DFS - Iterative
 var treeLevels = (root) => {
   if(root === null) return [];
-  let stack = [{node: root, level: 0}];
+  let stack = [];
+
+  // Return array
   let levels = [];
+
+  // Push nodes along with the level information into the stack
+  stack.push({node: root, level: 0});
+
   while(stack.length !== 0){
-    let current = stack.pop();
-    let childLevel = current.level + 1;
-    let currentNode = current.node;
-    if(!levels[current.level]) levels[current.level] = [];
-    levels[current.level].push(currentNode.val);
-    if(currentNode.right) stack.push({node: currentNode.right, level: childLevel});
-    if(currentNode.left) stack.push({node: currentNode.left, level: childLevel});
+    let currentNode = stack.pop();
+    let currNode = currentNode.node;
+    let currLevel = currentNode.level;
+
+    // Insert the latest Node into the index correspoding to the level info obtained
+    if(!levels[currLevel]) levels[currLevel] = [];
+    levels[currLevel].push(currNode.val);
+
+    if(currentNode.right) stack.push({node: currNode.right, level: currLevel+1})
+    if(currentNode.left) stack.push({node: currNode.left, level: currLevel+1})
   }
+
   return levels;
 }
 
@@ -97,22 +118,19 @@ var treeLevels = (root) => {
 
 // Recursive
 var treeLevels = (root) => {
-    let levels = [];
-    _treeLevels(root, 0, levels);
-    return levels;
-  }
-  
-  const _treeLevels = (root, level, levels) => {
-    if(root === null) return;
-    let current = {node: root, level: level};
-    let currentNode = current.node;
-    let currentLevel = current.level;
-    if(!levels[currentLevel])  levels[currentLevel] = []
-    levels[currentLevel].push(currentNode.val);
-    _treeLevels(root.left, level + 1, levels);
-    _treeLevels(root.right, level + 1, levels);
-  }
-  
+  let levels = [];
+  // Passing the accumulator as an argument to the function
+  _treeLevels(root, 0, levels)
+  return levels;
+}
+
+const _treeLevels = (node, level, levels) => {
+  if(node === null) return;
+  if(!levels[level]) levels[level] = [];
+  levels[level].push(node.val);
+  if(node.left) _treeLevels(node.left, level+1, levels);
+  if(node.right) _treeLevels(node.right, level+1, levels);
+}
   
   // Complexity:
   // n = number of nodes
@@ -120,7 +138,7 @@ var treeLevels = (root) => {
   // Space: O(n)
   
   
-// console.log(treeLevels(q)); //->
+console.log(treeLevels(q)); //->
 // [
 //   ['q'],
 //   ['r', 's'],
