@@ -35,7 +35,10 @@ var leafList = (root) => {
   stack.push(root);
   while(stack.length !== 0){
     let current = stack.pop();
-    if(!current.left && !current.right) leafArr.push(current.val);
+    if(!current.left && !current.right) {
+      leafArr.push(current.val);
+      continue;
+    }
     if(current.right) stack.push(current.right);
     if(current.left) stack.push(current.left);
   }
@@ -51,7 +54,10 @@ var leafList = (root) => {
   
 const _leafList = (root, leafArr) => {
     if(root === null) return;
-    if(!root.left && !root.right) leafArr.push(root.val);
+    if(!root.left && !root.right) {
+      leafArr.push(root.val);
+      return;
+    }
     if(root.left) _leafList(root.left, leafArr);
     if(root.right) _leafList(root.right, leafArr);
 }
