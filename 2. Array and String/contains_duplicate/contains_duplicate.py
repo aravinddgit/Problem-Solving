@@ -2,7 +2,7 @@ class Solution:
     # def containsDuplicate(self, nums) -> bool:
     #     charCountMap = {}
     #     for num in nums:
-    #         if(num in charCountMap.keys()):
+    #         if(num in charCountMap):
     #             return True
     #         else:
     #             charCountMap[num] = 1
@@ -15,7 +15,7 @@ class Solution:
             if(num in mySet):
                 return True
             mySet.add(num) 
-        
+
         return False
 
 test = Solution()
