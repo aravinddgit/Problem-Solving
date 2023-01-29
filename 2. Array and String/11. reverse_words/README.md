@@ -1,5 +1,7 @@
-# Reverse Workds in a String III
+# Reverse Words in a String III
 **LeetCode 557** | `Easy` | https://leetcode.com/problems/reverse-words-in-a-string-iii/
+
+**Tags:** `Two pointer` `Array` `Queue`
 
 Given a string `s`, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.
 
