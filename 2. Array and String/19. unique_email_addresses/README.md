@@ -2,6 +2,8 @@
 
 **LeetCode 929** | `Easy` | https://leetcode.com/problems/unique-email-addresses/
 
+**Tags:** `String`
+
 Every **valid email** consists of a **local name** and a **domain name**, separated by the `'@'` sign. Besides lowercase letters, the email may contain one or more `'.'` or `'+'`.
 
 - For example, in `"alice@leetcode.com"`, `"alice"` is the **local name**, and `"leetcode.com"` is the **domain name**.
