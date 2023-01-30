@@ -9,6 +9,7 @@ class Solution:
                 if(nums[i] + nums[start] + nums[end] >= target):
                     end -= 1
                 else:
+                    # Note that the required count is the "index" triplet count and not the values' count. This triplets with repeating values will have different indices - difference with the original three-sum problem. Also, since the array is sorted, once we find the index corresponding to the value that is smaller than target, all other values occurring before it will until 'start' will also be smaller than target.
                     tripletCount += (end-start)
                     start += 1
         return tripletCount
