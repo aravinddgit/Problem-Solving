@@ -9,7 +9,7 @@ Return *the indices of the two numbers,* `index1` *and* `index2`*, **added 
 
 The tests are generated such that there is **exactly one solution**. You **may not** use the same element twice.
 
-Your solution must use only constant extra space.
+** Your solution must use only constant extra space. **
 
 **Example 1:**
 
