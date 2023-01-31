@@ -32,6 +32,7 @@ class Solution:
         for index,interval in enumerate(intervals[mergeStartIndex:]):
             if(newInterval[1] < interval[0]):
                 if(index == 0):
+                    # The denotes that the start index and the endindex are the same
                     return intervals[:mergeStartIndex] + [newInterval] + intervals[mergeStartIndex:]
                 mergeEndIndex = index - 1 + len(intervals[:mergeStartIndex])
                 mergeIntervalEnd = newInterval[1]
@@ -92,6 +93,106 @@ class Solution:
 
         return intervals
          
+    def insert2(self, intervals, newInterval):
+        mergeStartIndexP1 = 0
+        mergeEndIndexP1 = 0
+        mergeStartIndexP2 = len(intervals)-1
+        mergeEndIndexP2 = len(intervals)-1
+        mergeStartIndex = 0
+        mergeEndIndex = 0
+        mergeStartValue = None
+        mergeEndValue = None
+
+        if(len(intervals) == 0 or (newInterval[0] < intervals[0][0] and newInterval[1] > intervals[-1][1])):
+            return [newInterval]
+
+        if newInterval[1] < intervals[0][0]:
+            return [newInterval] + intervals
+        elif newInterval[0] > intervals[-1][1]:
+            return intervals + [newInterval]
+
+        if(len(intervals) == 1):
+            return [[min(intervals[0][0],newInterval[0]),max(intervals[0][1],newInterval[1])]]
+
+        while(mergeStartIndexP1 < mergeStartIndexP2-1):
+            startIndexMid = (mergeStartIndexP1 + mergeStartIndexP2) // 2
+            if(newInterval[0] < intervals[startIndexMid][0]):
+                mergeStartIndexP2 = startIndexMid
+            elif(newInterval[0] > intervals[startIndexMid][0]):
+                mergeStartIndexP1 = startIndexMid
+            else:
+                mergeStartIndex = startIndexMid
+                mergeStartValue = intervals[startIndexMid][0]
+                break
+        
+        # print(f"start p1: {mergeStartIndexP1}")
+        # print(f"start p2: {mergeStartIndexP2}")
+        if(mergeStartValue is None):
+            if(newInterval[0] <= intervals[mergeStartIndexP1][1]):
+                if(newInterval[0] in [i for i in range(intervals[mergeStartIndexP1][0],intervals[mergeStartIndexP1][1]+1)]):
+                    mergeStartIndex = mergeStartIndexP1
+                    mergeStartValue = intervals[mergeStartIndexP1][0]
+                else:
+                    mergeStartIndex = mergeStartIndexP1
+                    mergeStartValue = newInterval[0]
+            else:
+                if(newInterval[0] <= intervals[mergeStartIndexP2][1]):
+                    if(newInterval[0] in [i for i in range(intervals[mergeStartIndexP2][0],intervals[mergeStartIndexP2][1]+1)]):
+                        mergeStartIndex = mergeStartIndexP2
+                        mergeStartValue = intervals[mergeStartIndexP2][0]
+                    else:
+                        mergeStartIndex = mergeStartIndexP2
+                        mergeStartValue = newInterval[0]
+                else:
+                    mergeStartIndex = mergeStartIndexP2 + 1
+                    mergeStartValue = newInterval[0]
+        # print(f"MergeStartIndex: {mergeStartIndex}")
+
+        mergeEndIndexP1 = mergeStartIndex
+
+        while(mergeEndIndexP1 < mergeEndIndexP2-1):
+            endIndexMid = (mergeEndIndexP1 + mergeEndIndexP2) // 2
+            if(newInterval[1] > intervals[endIndexMid][1]):
+                mergeEndIndexP1 = endIndexMid
+            elif(newInterval[1] < intervals[endIndexMid][1]):
+                mergeEndIndexP2 = endIndexMid
+            else:
+                mergeEndIndex = endIndexMid
+                mergeEndValue = intervals[endIndexMid][1]
+                break
+        
+        # print(f"end p1: {mergeEndIndexP1}")
+        # print(f"end p2: {mergeEndIndexP2}")
+
+        if(mergeEndValue is None):
+            if(newInterval[1] <= intervals[mergeEndIndexP1][1]):
+                if(newInterval[1] in [i for i in range(intervals[mergeEndIndexP1][0],intervals[mergeEndIndexP1][1]+1)]):
+                    mergeEndIndex = mergeEndIndexP1
+                    mergeEndValue = intervals[mergeEndIndexP1][1]
+                else:
+                    mergeEndIndex = mergeEndIndexP1-1
+                    mergeEndValue = newInterval[1]
+            else:
+                if(newInterval[1] <= intervals[mergeEndIndexP2][1]):
+                    if(newInterval[1] in [i for i in range(intervals[mergeEndIndexP2][0],intervals[mergeEndIndexP2][1]+1)]):
+                        mergeEndIndex = mergeEndIndexP2
+                        mergeEndValue = intervals[mergeEndIndexP2][1]
+                    else:
+                        mergeEndIndex = mergeEndIndexP1
+                        mergeEndValue = newInterval[1]
+                else:
+                    mergeEndIndex = mergeEndIndexP2
+                    mergeEndValue = newInterval[1]
+
+        # print(f"MergeEndIndex: {mergeEndIndex}")
+        return intervals[:mergeStartIndex] + [[mergeStartValue, mergeEndValue]] + intervals[mergeEndIndex+1:]
+        
+        
+
+        
+
+        
+
 
 test = Solution()
 print(test.insert([[1,3],[6,9]],[2,5]))
@@ -106,6 +207,8 @@ print(test.insert([[2,5],[6,7],[8,9]],[0,1]))
 print(test.insert([[2,6],[7,9]],[15,8]))
 print(test.insert([[0,2],[3,9]],[6,8]))
 
+print("------------------------------------")
+
 print(test.insert1([[1,3],[6,9]],[2,5]))
 print(test.insert1([[1,2],[3,5],[6,7],[8,10],[12,16]],[4,8]))
 print(test.insert1([],[5,7]))
@@ -117,3 +220,23 @@ print(test.insert1([[3,5],[12,15]],[6,6]))
 print(test.insert1([[2,5],[6,7],[8,9]],[0,1]))
 print(test.insert1([[2,6],[7,9]],[15,8]))
 print(test.insert1([[0,2],[3,9]],[6,8]))
+
+print("------------------------------------")
+
+print(test.insert2([[1,3],[6,9]],[2,5]))
+print(test.insert2([[1,2],[3,5],[6,7],[8,10],[12,16]],[4,8]))
+print(test.insert2([],[5,7]))
+print(test.insert2([[1,5]],[2,7]))
+print(test.insert2([[1,5]],[2,3]))
+print(test.insert2([[1,5]],[7,10]))
+print(test.insert2([[6,8]],[1,5]))
+print(test.insert2([[3,5],[12,15]],[6,6]))
+print(test.insert2([[2,5],[6,7],[8,9]],[0,1]))
+print(test.insert2([[2,6],[7,9]],[15,8]))
+print(test.insert2([[0,2],[3,9]],[6,8]))
+print(test.insert2([[1,5]],[0,3]))
+print(test.insert2([[0,2],[3,3],[6,11]],[9,15]))
+print(test.insert2([[0,5],[9,12]],[7,16]))
+print(test.insert2([[1,5],[9,12]],[0,4]))
+print(test.insert2([[0,0],[1,3],[5,11]],[0,3]))
+
