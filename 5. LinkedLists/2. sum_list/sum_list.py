@@ -15,7 +15,7 @@ c.next = d
 d.next = e
 
 # 2 -> 8 -> 3 -> -1 -> 7
-
+# Iterative
 def sum_list(head):
     current = head
     sum = 0
@@ -24,10 +24,11 @@ def sum_list(head):
         current = current.next
     return sum
 
+# Recursive
 def sum_list1(head):
     if head is None:
         return 0
-    return head.val + sum_list(head.next)
+    return head.val + sum_list1(head.next)
 
 print(sum_list(a))
 print(sum_list1(a))
