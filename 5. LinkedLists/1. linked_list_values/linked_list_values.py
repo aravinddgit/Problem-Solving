@@ -20,6 +20,14 @@ c.next = d
 #     current = current.next
 #   return outputList
 
+def print_list(head):
+  output = ""
+  while(head.next is not None):
+    output += str(head.val) + "->"
+    head = head.next
+  output += str(head.val)
+  print(output)
+
 def linked_list_values(head, arr=[]):
   values = []
   _linked_list_values(head, values)
@@ -31,3 +39,4 @@ def _linked_list_values(head, values):
   values.append(head.val)
 
 print(linked_list_values(a))
+print_list(a)
