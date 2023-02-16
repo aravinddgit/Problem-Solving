@@ -40,26 +40,31 @@ class Solution:
 
     # Brute Force: Recursion
     def is_Interleave(self, s1, index1, s2, index2, s3, res):
-
+        # Exit condition: if the index pointers of both string have reached the end of the and the final interleaved string is equal to the expected output
         if(res == s3 and index1 == len(s1) and index2 == len(s2)):
             return True
 
         ans = False
+        # Keep recursively iterating as long as the index pointers is less than the length of the string
+        # Here the if consitions are like branches (choices) in the recursion tree. By default, we are taking the char in first string as our choice and exploring that branch; if that doesn't work, we explore the second branch (ie) the char in the second string
         if(index1 < len(s1)):
             ans = self.is_Interleave(s1, index1+1, s2, index2, s3, res+s1[index1])
         if(index2 < len(s2)):
+            # Notice the '|=' -> If the output from the prev If condition above is already true, just return true - dont iterate
             ans |= self.is_Interleave(s1, index1, s2, index2+1, s3, res+s2[index2])
 
         return ans
 
     def isInterleave(self, s1, s2, s3):
+        # Sum of the length of both the strings should equal the final string
         if(len(s1) + len(s2) != len(s3)):
             return False
 
         return self.is_Interleave(s1, 0, s2, 0, s3, "")
 
+    # ------------------------------------------------------------
 
-    # Recursion with memoization - Top Down approach 1
+    # Recursion with memoization - Top Down approach 1 - checkout approach 2 - same as this with a slightly different implementation
     def is_Interleave1(self, s1, i, s2, j, s3, k, memo):
 
         if i == len(s1):
@@ -93,7 +98,8 @@ class Solution:
         if(len(s1) + len(s2) != len(s3)):
             return False
         
-        memo = {}
+        # Memoization does not seem to have any effect as the same combination of indices will not be visited again. 
+        # memo = {}
         
         def is_Interleave2(i, j):
             if(i == len(s1)):
@@ -102,14 +108,15 @@ class Solution:
             if(j == len(s2)):
                 return s1[i:] == s3[i+j:]            
             
-            if((i,j) in memo):
-                return memo[(i,j)]
+            # if((i,j) in memo):
+            #     return memo[(i,j)]
 
             if(i < len(s1) and s1[i] == s3[i+j] and is_Interleave2(i+1,j)):
                 return True
             if(j < len(s2) and s2[j] == s3[i+j] and is_Interleave2(i,j+1)):
                 return True
             
+            # memo[(i,j)] = False
             return False
         
         return is_Interleave2(0,0)
@@ -123,6 +130,9 @@ class Solution:
         
         memo = [[False] * (len(s2)+1) for _ in range(len(s1)+1)]
 
+        # Iterating through the array from the botton to use the previously obtained values (using memoization) to determine current values
+        # Setting the last value to be True - If the final string obtained is assumed to be matching the expected string, then the index pointers of each string (1 and 2) eventually ends up at the end of the both the arrays i.e the new string formed has used all the characters of string 1 and 2.
+        # The value start from len(string) i.e 1 more than the length of the string - because there can be a scenario where the index pointer of 1 string has reached the end, while the index pointer of the other string is still in the middle while trying to interleave/merge to obtain the final string
         memo[len(s1)][len(s2)] = True
         for i in range(len(s1), -1, -1):
             for j in range(len(s2), -1, -1):
