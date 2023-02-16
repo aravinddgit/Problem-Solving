@@ -62,6 +62,9 @@ class Solution:
 
         return self.is_Interleave(s1, 0, s2, 0, s3, "")
 
+    # Time: O(2^(m+n))
+    # Space: O(m+n)
+
     # ------------------------------------------------------------
 
     # Recursion with memoization - Top Down approach 1 - checkout approach 2 - same as this with a slightly different implementation
@@ -90,6 +93,9 @@ class Solution:
         memo = [[-1] * len(s1) for _ in range(len(s2))]
         
         return self.is_Interleave1(s1, 0, s2, 0, s3, 0, memo)
+
+    # Time: O(m.n)
+    # Space: O(m.n)
 
     # --------------------------------------------------------------
 
@@ -121,6 +127,9 @@ class Solution:
         
         return is_Interleave2(0,0)
 
+    # Time: O(m.n)
+    # Space: O(m.n)
+
     # --------------------------------------------------------------
 
     # Dynamic programming - Bottom-up approach
@@ -143,6 +152,8 @@ class Solution:
 
         return memo[0][0]
 
+    # Time: O(m.n)
+    # Space: O(n)
 
 
 test = Solution()
