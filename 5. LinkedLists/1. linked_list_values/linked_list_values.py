@@ -28,7 +28,7 @@ def print_list(head):
   output += str(head.val)
   print(output)
 
-def linked_list_values(head, arr=[]):
+def linked_list_values(head):
   values = []
   _linked_list_values(head, values)
   return values
@@ -37,6 +37,7 @@ def _linked_list_values(head, values):
   if head is None:
     return
   values.append(head.val)
+  _linked_list_values(head.next, values)
 
 print(linked_list_values(a))
 print_list(a)
